@@ -8,11 +8,13 @@ load_dotenv()
 
 SYSTEM_MESSAGE = "You are a helpful assistant that can use tools to answer questions."
 
+# Define the agent reasoning node and the tool node
 def run_agent_reasoning(state: MessagesState) -> MessagesState:
     """
     Run the agent reasoning node.
     """
-    response = llm.invoke([{"role": "system", "content": SYSTEM_MESSAGE}], *state.messages)
+    response = llm.invoke([{"role": "system", "content": SYSTEM_MESSAGE}] + state["messages"])
     return {"messages": [response]}
 
+# Define the tool node
 tool_node = ToolNode(tools)
